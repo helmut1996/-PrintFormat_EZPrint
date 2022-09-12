@@ -35,32 +35,31 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter mBTAdapter;
-    private Set<BluetoothDevice> mPairedDevices;
+     Set<BluetoothDevice> mPairedDevices;
     private ArrayAdapter<String> mBTArrayAdapter;
     //StringBuilder sbResultado ;
-    private String m = "Probando Texto a Imprimir en RP4";
-    static final String ENCODING = "ISO-8859-1";
+    private final String m = "Imprimir en RP4";
     Imprimir imp;
-    private Handler mHandler; // Nuestro controlador principal que recibirá notificaciones de devolución de llamada
-    private ConnectedThread mConnectedThread; // Subproceso de trabajo en segundo plano bluetooth para enviar y recibir datos
-    private BluetoothSocket mBTSocket = null; // ruta de datos bidireccional de cliente a cliente
+    private Handler mHandler; // Nestor controller principal que reciter notifications de devolution de llamada
+    private ConnectedThread mConnectedThread; // Subprocess de taboo en segundo plano bluetooth para envio y recibir datos
+    private BluetoothSocket mBTSocket = null; // ruta de dates bidirectional de client a client
     private final String TAG = MainActivity.class.getSimpleName();
     private final static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
-    public final static int MESSAGE_READ = 2; // Se utiliza en el controlador Bluetooth para identificar la actualización de mensajes
-    private final static int CONNECTING_STATUS = 3; // Se utiliza en el controlador Bluetooth para identificar el estado del mensaje
+    public final static int MESSAGE_READ = 2; // Se utilize en el controller Bluetooth para identifier la actualization de mensajes
+    private final static int CONNECTING_STATUS = 3; // Se utilize en el controller Bluetooth para identifier el estate del mensaje
     private static final UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
 
-  private Button btn_on;
-  private Button btn_off;
-  private Button mDiscoverBtn;
-  private Button mListPairedDevicesBtn;
-  private TextView mBluetoothStatus;
-  private ListView mDevicesListView;
+   Button btn_on;
+   Button btn_off;
+   Button mDiscoverBtn;
+   Button mListPairedDevicesBtn;
+   TextView mBluetoothStatus;
+   ListView mDevicesListView;
   // Botones para Imprimir
-  private Button btn_print1;
-  private Button btn_print2;
-  private Button btn_print3;
+   Button btn_print1;
+   Button btn_print2;
+   Button btn_print3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,49 +93,44 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg){
                 if(msg.what == MESSAGE_READ){
-                    String readMessage = null;
+                    String readMessage;
                     readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
-                    // mReadBuffer.setText(readMessage);
+                    System.out.println(readMessage);
                 }
 
                 if(msg.what == CONNECTING_STATUS){
                     if(msg.arg1 == 1)
-                        mBluetoothStatus.setText("Connected to Device: " + msg.obj);
+                        mBluetoothStatus.setText("Connected to Device:" + msg.obj);
                     else
-                        mBluetoothStatus.setText("Connection Failed");
+                        mBluetoothStatus.setText(R.string.fallando );
                 }
             }
         };
 
         if (mBTArrayAdapter == null) {
             // Device does not support Bluetooth
-            mBluetoothStatus.setText("Status: Bluetooth not found");
+            mBluetoothStatus.setText(R.string.notfont);
             Toast.makeText(getApplicationContext(),"Bluetooth device not found!",Toast.LENGTH_SHORT).show();
         }
         else {
 
             btn_on.setOnClickListener(
-                    (View v) ->{
-                        bluetoothOn();
-                    }
+                    (View v) -> bluetoothOn()
             );
 
             btn_off.setOnClickListener(
-                    (View v)->{
-                        bluetoothOff();
-                    }
+                    (View v)-> bluetoothOff()
+
             );
 
             mDiscoverBtn.setOnClickListener(
-                    (View v)->{
-                        discover();
-                    }
+                    (View v)-> discover()
+
             );
 
             mListPairedDevicesBtn.setOnClickListener(
-                    (View v)->{
-                        listPairedDevices();
-                    }
+                    (View v)->listPairedDevices()
+
             );
             btn_print1.setOnClickListener(
                     (View v)->{
@@ -175,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         if (!mBTAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            mBluetoothStatus.setText("Bluetooth enabled");
+            mBluetoothStatus.setText(R.string.bluetoothapagado);
             Toast.makeText(getApplicationContext(),"Bluetooth turned on",Toast.LENGTH_SHORT).show();
 
         }
@@ -194,16 +188,16 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // The user picked a contact.
                 // The Intent's data Uri identifies which contact was selected.
-                mBluetoothStatus.setText("Enabled");
+                mBluetoothStatus.setText(R.string.encendido);
             } else
-                mBluetoothStatus.setText("Disabled");
+                mBluetoothStatus.setText(R.string.apagado);
         }
     }
 
     @SuppressLint("MissingPermission")
     private void bluetoothOff(){
         mBTAdapter.disable(); // turn off
-        mBluetoothStatus.setText("Bluetooth disabled");
+        mBluetoothStatus.setText(R.string.bluetoothStatus);
         Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
     }
 
@@ -256,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
     }
 
-    private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
+    private final AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -265,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            mBluetoothStatus.setText("Connecting...");
+            mBluetoothStatus.setText(R.string.conectando);
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) view).getText().toString();
             final String address = info.substring(info.length() - 17);

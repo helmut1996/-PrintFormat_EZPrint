@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ImpresoraRP4</string>
+    <string name="conectando">Connecting...</string>
+    <string name="bluetoothStatus">Bluetooth disabled</string>
+    <string name="encendido">Enabled</string>
+    <string name="apagado">Disabled</string>
+    <string name="bluetoothapagado">Bluetooth enabled</string>
+    <string name="conectado">Connected to Device:</string>
+    <string name="fallando">Connection Failed</string>
+    <string name="notfont">Status: Bluetooth not found</string>
 </resources>
