@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     //StringBuilder sbResultado ;
     private final String m = "Imprimir en RP4";
     Imprimir imp;
+    imprimir2 imp2;
+    imprimir3 imp3;
     private Handler mHandler; // Nestor controller principal que reciter notifications de devolution de llamada
     private ConnectedThread mConnectedThread; // Subprocess de taboo en segundo plano bluetooth para envio y recibir datos
     private BluetoothSocket mBTSocket = null; // ruta de dates bidirectional de client a client
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
         // se Extancia la clase de Impresion para mandar a llamar los formatos de Impresion\
         imp = new Imprimir();
+        imp2 = new imprimir2();
+        imp3 = new imprimir3();
+/////////////////////////////////////////////////////////////////////////////////////////////
 
         mBTArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
@@ -148,12 +153,27 @@ public class MainActivity extends AppCompatActivity {
             btn_print2.setOnClickListener(
                     (View v)->{
 
+                        try {
+                            byte []ss = imp2.Formato2(m);
+                            if (mConnectedThread != null) //Primero verifique para asegurarse de que el subproceso se creó
+                                mConnectedThread.mmOutStream.write(ss,0,ss.length);
+                            mConnectedThread.mmOutStream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
             );
 
             btn_print3.setOnClickListener(
                     (View v)->{
-
+                        try {
+                            byte []ss = imp3.Formato3(m);
+                            if (mConnectedThread != null) //Primero verifique para asegurarse de que el subproceso se creó
+                                mConnectedThread.mmOutStream.write(ss,0,ss.length);
+                            mConnectedThread.mmOutStream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
             );
 

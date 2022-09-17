@@ -44,7 +44,7 @@ public class ConnectedThread extends Thread {
                 bytes = mmInStream.available();
                 if(bytes != 0) {
                     buffer = new byte[1024];
-                    SystemClock.sleep(100); //pausar y esperar el resto de datos. Ajuste esto dependiendo de su velocidad de envío.
+                    SystemClock.sleep(5000); //pausar y esperar el resto de datos. Ajuste esto dependiendo de su velocidad de envío.
                     bytes = mmInStream.available(); // ¿Cuántos bytes están listos para ser leídos?
                     bytes = mmInStream.read(buffer, 0, bytes); //  registrar cuántos bytes leemos realmente
                     mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1, buffer)
