@@ -26,7 +26,9 @@ public class ConnectedThread extends Thread {
         try {
             tmpIn = socket.getInputStream();
             tmpOut = socket.getOutputStream();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
 
         mmInStream = tmpIn;
         mmOutStream = tmpOut;
@@ -34,7 +36,7 @@ public class ConnectedThread extends Thread {
 
     @Override
     public void run() {
-        byte[] buffer = new byte[1024];// almacén de búfer para el flujo
+        byte[] buffer;// almacén de búfer para el flujo
         int bytes;// bytes devueltos desde read()
 // Seguir escuchando InputStream hasta que ocurra una excepción
         while (true) {
@@ -64,13 +66,17 @@ public class ConnectedThread extends Thread {
         try {
             mmOutStream.write(bytes);
 
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 
     /* Llame a esto desde la actividad principal para cerrar la conexión*/
     public void cancel() {
         try {
             mmSocket.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 }
