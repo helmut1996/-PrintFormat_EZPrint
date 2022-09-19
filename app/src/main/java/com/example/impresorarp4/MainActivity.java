@@ -1,5 +1,6 @@
 package com.example.impresorarp4;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -11,6 +12,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public final static int MESSAGE_READ = 2; // Se utilize en el controller Bluetooth para identifier la actualization de mensajes
     private final static int CONNECTING_STATUS = 3; // Se utilize en el controller Bluetooth para identifier el estate del mensaje
     private static final UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
+    String connect;
 
 
    Button btn_on;
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 if(msg.what == CONNECTING_STATUS){
                     if(msg.arg1 == 1)
                         mBluetoothStatus.setText("Connected to Device:" + msg.obj);
+
                     else
                         mBluetoothStatus.setText(R.string.fallando );
                 }
@@ -139,30 +143,43 @@ public class MainActivity extends AppCompatActivity {
             );
             btn_print1.setOnClickListener(
                     (View v)->{
-                        try {
-                            byte []ss = imp.Formato1(m);
-                            if (mConnectedThread != null) //Primero verifique para asegurarse de que el subproceso se creó
-                                mConnectedThread.mmOutStream.write(ss,0,ss.length);
-                                mConnectedThread.mmOutStream.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+                        if (mConnectedThread!= null){
+                            ModalConfirmacion();
+                        }else{
+                            AlertDialog.Builder  builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setTitle("Debes de Conecxtar una impresora")
+                                    .setPositiveButton("si", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Toast.makeText(MainActivity.this, " Conectar a una impresora", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).show();
                         }
+
+
 
                     });
 
             btn_print2.setOnClickListener(
                     (View v)->{
 
-                        try {
-                            byte []ss = imp2.Formato2(m);
-                            if (mConnectedThread != null) //Primero verifique para asegurarse de que el subproceso se creó
-                                mConnectedThread.mmOutStream.write(ss,0,ss.length);
-                            mConnectedThread.mmOutStream.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+                        if (mConnectedThread!= null){
+                            ModalConfirmacion2();
+                        }else{
+                            AlertDialog.Builder  builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setTitle("Debes de Conecxtar una impresora")
+                                    .setPositiveButton("si", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Toast.makeText(MainActivity.this, " Conectar a una impresora", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).show();
                         }
-                    }
-            );
+
+
+                    });
 
             btn_print3.setOnClickListener(
                     (View v)->{
@@ -183,6 +200,62 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void ModalConfirmacion(){
+
+        AlertDialog.Builder  builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Quieres Imprimir formato 1 ?")
+                .setPositiveButton("si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "Imprimiendo....", Toast.LENGTH_SHORT).show();
+                        try {
+                            byte []ss = imp.Formato1(m);
+                            if (mConnectedThread != null) //Primero verifique para asegurarse de que el subproceso se creó
+                                mConnectedThread.mmOutStream.write(ss,0,ss.length);
+                            mConnectedThread.mmOutStream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, " se cancelo la impricion", Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+
+
+    }
+
+    private void ModalConfirmacion2(){
+
+        AlertDialog.Builder  builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Quieres Imprimir el formato 2?")
+                .setPositiveButton("si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "Imprimiendo....", Toast.LENGTH_SHORT).show();
+                        try {
+                            byte []ss = imp2.Formato2(m);
+                            if (mConnectedThread != null) //Primero verifique para asegurarse de que el subproceso se creó
+                                mConnectedThread.mmOutStream.write(ss,0,ss.length);
+                            mConnectedThread.mmOutStream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, " se cancelo la impricion", Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+
+
+    }
 
     @SuppressLint("MissingPermission")
     private void bluetoothOn(){
