@@ -1,11 +1,22 @@
 package com.example.impresorarp4;
 
+import android.graphics.Bitmap;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import datamaxoneil.printer.DocumentLP;
 
 public class Imprimir {
     static final String ENCODING = "ISO-8859-1";
 
+    String caracteresEsp = " {} & ? [] @";
+            /*(" &" + "/"+ "()" +"="+ "?"+ "" +"' "+" ;"+
+    " `"+" +"+"*" + " {}"+"[]" +"~ @"+" \\\\  \\ | ¬ # $"+" % ° ");
+
+
+             */
 
     /*TODO variables para formatos de la impresora */
         private static final String MEN_OSB_14 = "MEN_OSB 14";
@@ -41,12 +52,26 @@ public class Imprimir {
     static final String SEPARADOR_ = "________________________________________________________________________________";
     static final String LN = "|";
     static final String ESC = "";
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Coordenadas
+    String x;
+    int y;
 
+    ArrayList<String> cargoVarios;
 
 
 
     public byte[] Formato1(String m) throws IOException {
         StringBuilder sbResultado = new StringBuilder();
+
+        cargoVarios = new ArrayList<>();
+        cargoVarios.add("Cargo vario 1");
+        cargoVarios.add("Cargo vario 2");
+        cargoVarios.add("Cargo vario 3");
+        cargoVarios.add("Cargo vario 4");
+        cargoVarios.add("Cargo vario 5");
+
+
 
             /*
 
@@ -180,11 +205,20 @@ public class Imprimir {
 
 
         /*TODO CARGOS VARIOS*/
-        sbResultado.append("@"+"820,400:"+FONTSMALL+LN+"CARGO VARIOS     150"+LN);
+        y = 800;
+        for (int x=0; x < cargoVarios.size();x++){
+            String c = cargoVarios.get(x);
+            y = y+20;
+            sbResultado.append("@"+y+",400:"+FONTSMALL+LN+c+LN);
+        }
+
+
+       /*
         sbResultado.append("@"+"840,400:"+FONTSMALL+LN+"CARGO VARIOS     150"+LN);
         sbResultado.append("@"+"860,400:"+FONTSMALL+LN+"CARGO VARIOS     150"+LN);
         sbResultado.append("@"+"880,400:"+FONTSMALL+LN+"CARGO VARIOS    150"+LN);
-        sbResultado.append("@"+"900,400:"+FONTBOLD2+LN+"SUBCIDIO     150"+LN);
+        */
+        sbResultado.append("@"+(y+20)+",400:"+FONTBOLD2+LN+"SUBCIDIO     150"+LN);
         /*TODO CARGOS VARIOS*/
 
         sbResultado.append("@"+"990,400:"+FONTBOLD2+LN+"SUBTOTAL     150"+LN);
@@ -229,15 +263,51 @@ public class Imprimir {
         sbResultado.append("@"+"2040,120:"+FONTBOLD2+LN+"554554548744548484848448448484"+LN);
         sbResultado.append("@"+"2060,120:"+FONTBOLD2+LN+"No."+LN);
         sbResultado.append("@"+"2060,190:"+FONTBOLD2+LN+"55145454215"+LN);
+        sbResultado.append("@"+"2080,190:"+FONTBOLD2+LN+ "Notificacion de No" +LN);
         /*TODO PARTE SIETE CODEBAR DE LA FACTURA EOO*/
         sbResultado.append("}");
-
-        return stringToByteArray(sbResultado.toString());
+        return stringToByteArray(atildes(sbResultado.toString()));
     }
 
 
 
 
+
+
+    public byte[] generarLogo(Bitmap anImage) throws IOException {
+
+        byte[] printData;
+
+        DocumentLP docLP;
+
+        int m_printHeadWidth = 932;
+
+        String ezHead = "EZ{AHEAD:110}\n";
+
+        String ezBack = "EZ{BACK:190}\n";
+
+        docLP = new DocumentLP("!");
+
+        docLP.writeImage(anImage, m_printHeadWidth);
+
+        byte[] imprime1 = stringToByteArray(ESC.concat(ezBack));
+
+        printData = new byte[docLP.getDocumentData().length + imprime1.length];
+
+        System.arraycopy(docLP.getDocumentData(),0,printData,0,docLP.getDocumentData().length);
+
+        System.arraycopy(imprime1,0,printData,docLP.getDocumentData().length,imprime1.length);
+
+        return printData;
+
+    }
+
+
+    private String atildes(String cadena) {
+        return cadena.replace("á", "\240").replace("é", "\202").replace("í", "\241").replace("ó", "\242")
+                .replace("ú", "\243").replace("ñ", "\244").replace("Ñ", "\245");
+
+    }
 
     public byte[] stringToByteArray(String s) throws IOException {
 

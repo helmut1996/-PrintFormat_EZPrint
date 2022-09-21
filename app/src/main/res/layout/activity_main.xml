@@ -10,87 +10,97 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ejemplo Impresion RP4"
-            android:textAlignment="center"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Connect Devices"
-            android:textAlignment="center"
-            android:id="@+id/tv_connect"/>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bluetooth on"
-                android:id="@+id/btn_on"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bluetooth off"
-                android:id="@+id/btn_off"
-                android:layout_weight="1"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mostrar Dispositivos"
-                android:id="@+id/btn_pairedDivices"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Buscar Dispositivos"
-                android:id="@+id/btn_discover"
-                android:layout_weight="1"/>
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Imprimir"
-            android:textAlignment="center"
-            android:textSize="20sp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="imprimir 1"
-                android:id="@+id/btn_print1"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="imprimir 2"
-                android:id="@+id/btn_print2"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="imprimir 3"
-                android:id="@+id/btn_print3"
-                android:layout_weight="1"/>
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/imagenC" />
         </LinearLayout>
-        <ListView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:id="@+id/list_devices"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ejemplo Impresion RP4"
+                    android:textAlignment="center"
+                    android:textSize="20sp"/>
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Connect Devices"
+                    android:textAlignment="center"
+                    android:id="@+id/tv_connect"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bluetooth on"
+                        android:id="@+id/btn_on"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bluetooth off"
+                        android:id="@+id/btn_off"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/contenedorImg">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mostrar Dispositivos"
+                        android:id="@+id/btn_pairedDivices"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Buscar Dispositivos"
+                        android:id="@+id/btn_discover"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Imprimir"
+                    android:textAlignment="center"
+                    android:textSize="20sp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="imprimir 1"
+                        android:id="@+id/btn_print1"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="imprimir 2"
+                        android:id="@+id/btn_print2"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="imprimir 3"
+                        android:id="@+id/btn_print3"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+                <ListView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:id="@+id/list_devices"/>
+
+            </LinearLayout>
 
 
-</ScrollView>
+        </ScrollView>
