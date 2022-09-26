@@ -222,8 +222,8 @@ public class Imprimir {
 
         /*TODO SEXTA PARTE DE LA FACTURA EOO*/
         y = 1700;
-        sbResultado.append("@").append(y).append(",180:").append(FONTBOLD2).append(LN).append("MF185|FACTURA").append(LN);
-        sbResultado.append("@").append(y + 20).append(",180:").append(FONTSMALL).append(LN).append("MF226|SERIE").append(LN);
+        sbResultado.append("@").append(y).append(",180:").append(FONTBOLD2).append(LN).append("FACTURA").append(LN);
+        sbResultado.append("@").append(y + 20).append(",180:").append(FONTSMALL).append(LN).append("SERIE").append(LN);
         sbResultado.append("@").append(y + 20).append(",240:").append(FONTSMALL).append(LN).append("52051").append(LN);
         sbResultado.append("@").append(y + 40).append(",180:").append(FONTSMALL).append(LN).append("ID DE CARGO").append(LN);
         sbResultado.append("@").append(y + 40).append(",290:").append(FONTSMALL).append(LN).append("I524105258").append(LN);
