@@ -17,8 +17,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,7 +26,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,15 +33,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
-import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.view.PieChartView;
-
 
 public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter mBTAdapter;
@@ -80,15 +70,18 @@ public class MainActivity extends AppCompatActivity {
    // para Graficos
     Bitmap anImage,ImgP;
     LinearLayout container;
-    ImageView img;
+     CustomProgressDialog loading;
 
 
-    PieChartView pieChartView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        loading = new CustomProgressDialog(MainActivity.this );
         mBluetoothStatus =findViewById(R.id.tv_connect);
         btn_on = findViewById(R.id.btn_on);
         btn_off = findViewById(R.id.btn_off);
@@ -100,28 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         anImage = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         container = findViewById(R.id.contenedorImg);
-        img = findViewById(R.id.imagenC);
 
-
-
-
-/*
-        pieChartView = findViewById(R.id.chart);
-
-        List pieData = new ArrayList<>();
-        pieData.add(new SliceValue(15, Color.BLUE).setLabel("Q1: $10"));
-        pieData.add(new SliceValue(25, Color.GRAY).setLabel("Q2: $4"));
-        pieData.add(new SliceValue(10, Color.RED).setLabel("Q3: $18"));
-        pieData.add(new SliceValue(60, Color.MAGENTA).setLabel("Q4: $28"));
-
-        PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(14);
-        pieChartData.setHasCenterCircle(true).setCenterText1("Sales in million").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
-        pieChartView.setPieChartData(pieChartData);
-
-
-
- */
 
         // se Extancia la clase de Impresion para mandar a llamar los formatos de Impresion\
         imp = new Imprimir();
@@ -142,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mHandler = new Handler(Looper.getMainLooper()){
+            @SuppressLint("SetTextI18n")
             @Override
             public void handleMessage(Message msg){
                 if(msg.what == MESSAGE_READ){
@@ -238,7 +211,10 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder  builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Quieres Imprimir formato 1 ?")
                 .setPositiveButton("si", (dialogInterface, i) -> {
+                    loading.show();
                     Toast.makeText(MainActivity.this, "Imprimiendo....", Toast.LENGTH_SHORT).show();
+
+
                     try {
                         byte []ss = imp.Formato1(m);
                         if (mConnectedThread != null) //Primero verifique para asegurarse de que el subproceso se creó
@@ -247,6 +223,19 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                            loading.dismiss();
+
+                        }
+                    },3000);
+                    /*
+
+                     */
                 })
                 .setNegativeButton("No", (dialogInterface, i) -> Toast.makeText(MainActivity.this, " se cancelo la impricion", Toast.LENGTH_SHORT).show()).show();
 
@@ -259,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Quieres Imprimir el formato 2?")
                 .setPositiveButton("si", (dialogInterface, i) -> {
                     Toast.makeText(MainActivity.this, "Imprimiendo....", Toast.LENGTH_SHORT).show();
-                    /*
+                    loading.show();
                     try {
 
 
@@ -270,7 +259,16 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                     */
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                            loading.dismiss();
+
+                        }
+                    },3000);
 
                 })
                 .setNegativeButton("No", (dialogInterface, i) -> Toast.makeText(MainActivity.this, " se cancelo la impricion", Toast.LENGTH_SHORT).show()).show();
@@ -283,14 +281,10 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder  builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Quieres Imprimir el formato 2?")
                 .setPositiveButton("si", (dialogInterface, i) -> {
-                 ImgP = Bitmap.createBitmap(container.getWidth(),container.getHeight(),Bitmap.Config.ARGB_8888);
-                    Canvas can =new Canvas();
-                    container.draw(can);
-                    img.setImageBitmap(ImgP);
 
                     Toast.makeText(MainActivity.this, "Imprimiendo....", Toast.LENGTH_SHORT).show();
 
-                    /*
+
                     try {
                         byte[] ss2 = imp.generarLogo(ImgP);
 
@@ -300,7 +294,16 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-*/
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                            loading.dismiss();
+
+                        }
+                    },3000);
+
                 })
                 .setNegativeButton("No", (dialogInterface, i) -> Toast.makeText(MainActivity.this, " se cancelo la impricion", Toast.LENGTH_SHORT).show()).show();
 
