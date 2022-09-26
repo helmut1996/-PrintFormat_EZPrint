@@ -1,5 +1,6 @@
 package com.example.impresorarp4;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -7,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -17,6 +19,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.UUID;
 
+@RequiresApi(api = Build.VERSION_CODES.S)
 public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter mBTAdapter;
      Set<BluetoothDevice> mPairedDevices;
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private final static int CONNECTING_STATUS = 3; // Se utilize en el controller Bluetooth para identifier el estate del mensaje
     private static final UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
+    //private boolean isAndroid12 = Build.VERSION.SDK_INT>=Build.VERSION_CODES.S;
 
 
    Button btn_on;
@@ -73,12 +78,42 @@ public class MainActivity extends AppCompatActivity {
      CustomProgressDialog loading;
 
 
+     //validacion de Bluetooth
+    private static final String[] BLE_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+             Manifest.permission.BLUETOOTH_CONNECT,
+             Manifest.permission.BLUETOOTH_SCAN,
+             Manifest.permission.BLUETOOTH_ADMIN,
+             Manifest.permission.BLUETOOTH,
+    };
 
+    private static final String[] ANDROID_12_BLE_PERMISSIONS = new String[]{
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_ADVERTISE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH,
+
+
+    };
+
+    public static void requestBlePermissions(Activity activity, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            ActivityCompat.requestPermissions(activity, ANDROID_12_BLE_PERMISSIONS, requestCode);
+        else
+            ActivityCompat.requestPermissions(activity, BLE_PERMISSIONS, requestCode);
+    }
+/// fin ///
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        requestBlePermissions(MainActivity.this,12);
+
 
 
         loading = new CustomProgressDialog(MainActivity.this );
@@ -206,6 +241,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     private void ModalConfirmacion(){
 
         AlertDialog.Builder  builder = new AlertDialog.Builder(MainActivity.this);
@@ -224,15 +261,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-
-                            loading.dismiss();
-
-                        }
-                    },3000);
+                    new Handler().postDelayed(() -> loading.dismiss(),3000);
                     /*
 
                      */
@@ -260,21 +289,15 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-
-                            loading.dismiss();
-
-                        }
-                    },3000);
+                    new Handler().postDelayed(() -> loading.dismiss(),3000);
 
                 })
                 .setNegativeButton("No", (dialogInterface, i) -> Toast.makeText(MainActivity.this, " se cancelo la impricion", Toast.LENGTH_SHORT).show()).show();
 
 
     }
+
+
 
     private void ModalConfirmacion3(){
 
@@ -294,15 +317,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-
-                            loading.dismiss();
-
-                        }
-                    },3000);
+                    new Handler().postDelayed(() -> loading.dismiss(),3000);
 
                 })
                 .setNegativeButton("No", (dialogInterface, i) -> Toast.makeText(MainActivity.this, " se cancelo la impricion", Toast.LENGTH_SHORT).show()).show();

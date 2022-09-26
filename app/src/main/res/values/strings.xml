@@ -8,4 +8,6 @@
     <string name="conectado">Connected to Device:</string>
     <string name="fallando">Connection Failed</string>
     <string name="notfont">Status: Bluetooth not found</string>
+    <string name="bluetooth_not_supported">"No soporta esta version  de Bluetooth "</string>
+    <string name="ble_not_supported">"no soporta el bluetooth "</string>
 </resources>

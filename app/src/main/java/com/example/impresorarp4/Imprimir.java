@@ -11,12 +11,6 @@ import datamaxoneil.printer.DocumentLP;
 public class Imprimir {
     static final String ENCODING = "ISO-8859-1";
 
-    String caracteresEsp = " {} & ? [] @";
-            /*(" &" + "/"+ "()" +"="+ "?"+ "" +"' "+" ;"+
-    " `"+" +"+"*" + " {}"+"[]" +"~ @"+" \\\\  \\ | ¬ # $"+" % ° ");
-
-
-             */
 
     /*TODO variables para formatos de la impresora */
         private static final String MEN_OSB_14 = "MEN_OSB 14";
@@ -213,11 +207,7 @@ public class Imprimir {
         }
 
 
-       /*
-        sbResultado.append("@"+"840,400:"+FONTSMALL+LN+"CARGO VARIOS     150"+LN);
-        sbResultado.append("@"+"860,400:"+FONTSMALL+LN+"CARGO VARIOS     150"+LN);
-        sbResultado.append("@"+"880,400:"+FONTSMALL+LN+"CARGO VARIOS    150"+LN);
-        */
+
         sbResultado.append("@"+(y+20)+",400:"+FONTBOLD2+LN+"SUBCIDIO     150"+LN);
         /*TODO CARGOS VARIOS*/
 
