@@ -41,7 +41,6 @@ public class Imprimir {
     static final String FONTINVERSE2 = "MF107,INVERSE";
     static final String FONTBOLD3 = "MF185";
     static final String FONTINVERSE3 = "MF204,INVERSE";
-    static final String BARCODE = "EN128, HIGH 12, WIDE 2";
     static final String SEPARADOR = "=========================================================================";
     static final String SEPARADOR_ = "________________________________________________________________________________";
     static final String LN = "|";
@@ -53,8 +52,18 @@ public class Imprimir {
     int y;
     //TODO Coordenadas
     ArrayList<String> cargoVarios;
+    String barcode = "12345678941";
 
-
+    /*TODO: TIPOS DE BAR CODES*/
+    static final String BARCODE = "EN128, HIGH 12, WIDE 2";
+    static final String BARCODE2 = "BC128, HIGH 12, WIDE 3";
+    String BARCODE3 = "PD417, HIGH 10, WIDE 1";
+    String BARCODEWIDTH = "EAN08, HIGH 18, WIDE 1";
+    String BARCODEBOLD ="EAN13,HIGH 12, WIDE 1";
+    String BARCODEBOLD2 = "PD417,HIGH 12, WIDE 1";
+    static final String BARCODELITTLE ="BC39W, HIGH 8, WIDE 1";
+    static final String BARCODELARGE = "BC128 HIGH 12, WIDE 2";
+    /*TODO: TIPOS DE BAR CODES*/
 
     public byte[] Formato1(String m) throws IOException {
         StringBuilder sbResultado = new StringBuilder();
@@ -87,7 +96,6 @@ public class Imprimir {
 
         /*TODO SEGUNDA PARTE DE LA FACTURA EOO*/
         y = 220;
-
         sbResultado.append("@").append(y).append(",10:").append(FONTSMALL).append(LN).append("DESDE  12/08/2022").append(LN);
         sbResultado.append("@").append(y).append(",230:").append(FONTSMALL).append(LN).append("TOTAL").append(LN);
         sbResultado.append("@").append(y).append(",430:").append(FONTSMALL).append(LN).append("54.89").append(LN);
@@ -137,19 +145,19 @@ public class Imprimir {
         y = 600;
         sbResultado.append("@"+"600,0:"+FONTBOLD2+LN+"CAL.CONSUMO"+LN);
         sbResultado.append("@").append(y + 20).append(",0:").append(FONTSMALL).append(LN).append("Energia BT").append(LN);
-        sbResultado.append("@"+"600,150:"+FONTSMALL+LN+"MEDIDOR"+LN);
+        sbResultado.append("@").append(y).append(",150:").append(FONTSMALL).append(LN).append("MEDIDOR").append(LN);
         sbResultado.append("@").append(y + 20).append(",150:").append(FONTSMALL).append(LN).append("5411245").append(LN);
         sbResultado.append("@"+"600,250:"+FONTSMALL+LN+"MULT"+LN);
         sbResultado.append("@").append(y + 20).append(",250:").append(FONTSMALL).append(LN).append("MF226|0.00").append(LN);
-        sbResultado.append("@"+"600,320:"+FONTSMALL+LN+"TIPO MEDIDOR"+LN);
+        sbResultado.append("@").append(y).append(",320:").append(FONTSMALL).append(LN).append("TIPO MEDIDOR").append(LN);
         sbResultado.append("@").append(y + 20).append(",320:").append(FONTSMALL).append(LN).append("KWH 0.00").append(LN);
-        sbResultado.append("@"+"600,460:"+FONTSMALL+LN+"CAP"+LN);
+        sbResultado.append("@").append(y).append(",460:").append(FONTSMALL).append(LN).append("CAP").append(LN);
         sbResultado.append("@").append(y + 20).append(",460:").append(FONTSMALL).append(LN).append("CONTRATADA").append(LN);
         sbResultado.append("@").append(y + 40).append(",460:").append(FONTSMALL).append(LN).append("10").append(LN);
-        sbResultado.append("@"+"600,580:"+FONTSMALL+LN+"CAP"+LN);
+        sbResultado.append("@").append(y).append(",580:").append(FONTSMALL).append(LN).append("CAP").append(LN);
         sbResultado.append("@").append(y + 20).append(",580:").append(FONTSMALL).append(LN).append("FACTURADA").append(LN);
         sbResultado.append("@").append(y + 40).append(",580:").append(FONTSMALL).append(LN).append("10").append(LN);
-        sbResultado.append("@"+"600,690:"+FONTSMALL+LN+"MF226|CAP"+LN);
+        sbResultado.append("@").append(y).append(",690:").append(FONTSMALL).append(LN).append("MF226|CAP").append(LN);
         sbResultado.append("@").append(y + 20).append(",690:").append(FONTSMALL).append(LN).append("LEIDA").append(LN);
         sbResultado.append("@").append(y + 40).append(",690:").append(FONTSMALL).append(LN).append("10").append(LN);
         /*TODO CUARTA PARTE DE LA FACTURA EOO*/
@@ -166,22 +174,23 @@ public class Imprimir {
 
 
 
+        /*TODO ESTAS SON LAS BARRAS DE LAS GRAFICAS*/
         y =820;
         sbResultado.append("@").append(y).append(",80:").append("V,L92,T20").append(LN);
         sbResultado.append("@").append(y).append(",110:").append("V,L92,T20").append(LN);
         sbResultado.append("@").append(y).append(",140:").append("V,L90,T20").append(LN);
         sbResultado.append("@").append(y).append(",170:").append("V,L57,T20").append(LN);
         sbResultado.append("@").append(y).append(",210:").append("V,L71,T20").append(LN);
-
+        /*TODO ESTAS SON LAS BARRAS DE LAS GRAFICAS*/
 
 
 
 
         y=920;
         sbResultado.append("@").append(y).append(",90:").append(FONTSMALL).append(LN).append("03").append(LN);
-        sbResultado.append("@"+"940,90:"+FONTSMALL+LN+"03"+LN);
+        sbResultado.append("@").append(y + 20).append(",90:").append(FONTSMALL).append(LN).append("03").append(LN);
         sbResultado.append("@").append(y).append(",120:").append(FONTSMALL).append(LN).append("03").append(LN);
-        sbResultado.append("@"+"940,120:"+FONTSMALL+LN+"03"+LN);
+        sbResultado.append("@").append(y + 20).append(",120:").append(FONTSMALL).append(LN).append("03").append(LN);
         sbResultado.append("@").append(y).append(",150:").append(FONTSMALL).append(LN).append("03").append(LN);
         sbResultado.append("@").append(y).append(",150:").append(FONTSMALL).append(LN).append("03").append(LN);
         sbResultado.append("@").append(y).append(",180:").append(FONTSMALL).append(LN).append("03").append(LN);
@@ -200,7 +209,7 @@ public class Imprimir {
 
 
 
-        sbResultado.append("@").append(y + 20).append(",400:").append(FONTBOLD2).append(LN).append("SUBCIDIO     150").append(LN);
+        sbResultado.append("@").append(y + 20).append(",400:").append(FONTBOLD).append(LN).append("SUBCIDIO     150").append(LN);
         /*TODO CARGOS VARIOS*/
 
         y= 990;
@@ -215,7 +224,7 @@ public class Imprimir {
         sbResultado.append("@").append(y + 40).append(",400:").append(FONTBOLD2).append(LN).append("TOTAL B  12.50").append(LN);
         sbResultado.append("@").append(y + 60).append(",400:").append(FONTBOLD2).append(LN).append("TOTAL A+B+C  12.50").append(LN);
         sbResultado.append("@").append(y + 150).append(",0:").append(FONTBOLD2).append(LN).append("TOTAL ALCALDIA $  0.00").append(LN);
-        sbResultado.append("@").append(y + 320).append(",10:").append(FONTBOLD2).append(LN).append("MENSAJE PARA LA FACTURA DEL CLIENTE").append(LN);
+        sbResultado.append("@").append(y + 320).append(",10:").append(FONTBOLD).append(LN).append("MENSAJE PARA LA FACTURA DEL CLIENTE").append(LN);
         sbResultado.append("@").append(y + 400).append(",10:").append(FONTBOLD2).append(LN).append("No.").append(LN);
         sbResultado.append("@").append(y + 400).append(",80:").append(FONTBOLD2).append(LN).append("582598417").append(LN);
         /*TODO QUINTA PARTE GAFICOS DE LA FACTURA EOO*/
@@ -240,24 +249,21 @@ public class Imprimir {
         sbResultado.append("@").append(y).append(",500:").append(FONTBOLD2).append(LN).append("TOTAL EOO (A+B) $ 12.50").append(LN);
         sbResultado.append("@").append(y + 50).append(",500:").append(FONTBOLD2).append(LN).append("TOTAL ALCALDIA (C) $ 12.50").append(LN);
         sbResultado.append("@").append(y + 120).append(",500:").append(FONTBOLD2).append(LN).append("TOTAL EOO (A+B) $ 12.50").append(LN);
-        sbResultado.append("@").append(y + 150).append(",500:").append(FONTBOLD2).append(LN).append("(A+B+C)").append(LN);
+        sbResultado.append("@").append(y + 150).append(",500:").append(FONTBOLD).append(LN).append("(A+B+C)").append(LN);
 
         /*TODO SEXTA PARTE DE LA FACTURA EOO*/
 
         /*TODO PARTE SIETE CODEBAR DE LA FACTURA EOO*/
         y=2000;
-        sbResultado.append("@").append(y).append(",120:").append(FONTSMALL).append(LN).append("CODEBAR").append(LN);
+        sbResultado.append("@").append(y - 70).append(",120:").append(BARCODE).append(LN).append(barcode).append(LN);
         sbResultado.append("@").append(y + 20).append(",120:").append(FONTBOLD2).append(LN).append("554554548744548484848448448484").append(LN);
         sbResultado.append("@").append(y + 40).append(",120:").append(FONTBOLD2).append(LN).append("No.").append(LN);
-        sbResultado.append("@").append(y + 60).append(",190:").append(FONTBOLD2).append(LN).append("55145454215").append(LN);
-        sbResultado.append("@").append(y + 80).append(",190:").append(FONTBOLD2).append(LN).append("Notificacion de No").append(LN);
+        sbResultado.append("@").append(y + 40).append(",190:").append(FONTBOLD2).append(LN).append("55145454215").append(LN);
+        sbResultado.append("@").append(y + 120).append(",190:").append(FONTBOLD2).append(LN).append("").append(LN);// ESTA ES PARA DAR ESPACIO DE SEPARACION
         /*TODO PARTE SIETE CODEBAR DE LA FACTURA EOO*/
-        sbResultado.append("}");
+        sbResultado.append("}{LP}");
         return stringToByteArray(atildes(sbResultado.toString()));
     }
-
-
-
 
 
 
@@ -298,11 +304,10 @@ public class Imprimir {
 
     public byte[] stringToByteArray(String s) throws IOException {
 
-        byte b[] = null;
+        byte[] b;
         ByteArrayOutputStream ByteArray = new ByteArrayOutputStream();
-        byte buf[] = s.getBytes(ENCODING);
+        byte[] buf = s.getBytes(ENCODING);
         ByteArray.write(buf);
-        buf = null;
         b = ByteArray.toByteArray();
         return b;
 
